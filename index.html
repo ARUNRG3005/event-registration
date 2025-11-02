@@ -176,55 +176,42 @@
   </footer>
 
   <script>
-  // ---------- Replace these with values from your Google Form ----------
-  const FORM_ACTION = "https://docs.google.com/forms/u/0/d/11rNUC9Qi-Iy5UCrsHiLg-Cy6FEXgBTssolfjTI1A30Y/previewResponse"; 
-  // replace entry.X with the name attributes from the form inputs
+  const FORM_ACTION = "https://docs.google.com/forms/u/0/d/11rNUC9Qi-Iy5UCrsHiLg-Cy6FEXgBTssolfjTI1A30Y/previewResponse"; // replace YOUR_FORM_ID
+
   const ENTRY_NAME  = "entry.287233056";
   const ENTRY_EMAIL = "entry.1085380770";
   const ENTRY_DEPT  = "entry.2038590195";
   const ENTRY_EVENT = "entry.539590841";
   const ENTRY_MSG   = "entry.359799394";
-  // ---------------------------------------------------------------------
 
   document.getElementById("registrationForm").addEventListener("submit", function (e) {
     e.preventDefault();
 
-    // read values from your existing fields
-    const name  = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
-    const dept  = document.getElementById("dept").value;
-    const eventSel = document.getElementById("event").value;
-    const message  = document.getElementById("message").value;
-
-    // Build form data using URLSearchParams (application/x-www-form-urlencoded)
     const formBody = new URLSearchParams();
-    formBody.append(ENTRY_NAME, name);
-    formBody.append(ENTRY_EMAIL, email);
-    formBody.append(ENTRY_DEPT, dept);
-    formBody.append(ENTRY_EVENT, eventSel);
-    formBody.append(ENTRY_MSG, message);
+    formBody.append(ENTRY_NAME, document.getElementById("name").value);
+    formBody.append(ENTRY_EMAIL, document.getElementById("email").value);
+    formBody.append(ENTRY_DEPT, document.getElementById("dept").value);
+    formBody.append(ENTRY_EVENT, document.getElementById("event").value);
+    formBody.append(ENTRY_MSG, document.getElementById("message").value);
 
-    // Submit to Google Forms — use mode: 'no-cors' to avoid CORS errors.
     fetch(FORM_ACTION, {
       method: "POST",
-      mode: "no-cors", // required for cross-origin form posts to Google Forms
+      mode: "no-cors",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: formBody.toString()
     })
     .then(() => {
-      // Response is opaque when using no-cors; assume success
-      alert("✅ Thank you — your response was submitted.");
+      alert("✅ Thank you – your response was submitted!");
       document.getElementById("registrationForm").reset();
     })
-    .catch(err => {
-      alert("⚠️ Submission failed (network). Try again.\n" + err.message);
-    });
+    .catch(err => alert("⚠️ Submission failed: " + err.message));
   });
 </script>
 
 
 </body>
 </html>
+
 
 
 
