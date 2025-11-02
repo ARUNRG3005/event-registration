@@ -176,42 +176,37 @@
   </footer>
 
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbx5eadstEZODuEPSw3zGSQ6qEcEuAEo5bDKO1t8OIkm6S-1y3s8gaFUJGJStKdiZyBVZg/exec"; // Replace with your Web App URL
+const scriptURL = "https://script.google.com/macros/s/AKfycbzs_LZERjFmZ1svudv6D9bl7xHFh2cysf1mzvaIqCKBV8CybXJhcY7yiRWmtdy4PVjI/exec";
+document.getElementById("registrationForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const formData = {
+    name: document.getElementById("name").value,
+    email: document.getElementById("email").value,
+    dept: document.getElementById("dept").value,
+    event: document.getElementById("event").value,
+    message: document.getElementById("message").value
+  };
 
-    document.getElementById("registrationForm").addEventListener("submit", function (e) {
-      e.preventDefault();
+  fetch(scriptURL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(formData)
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.result === "success") {
+      alert("✅ Thank you for registering! Your response has been recorded.");
+      document.getElementById("registrationForm").reset();
+    } else {
+      alert("❌ Something went wrong.");
+    }
+  })
+  .catch(err => alert("⚠️ Network error: " + err.message));
+});
+</script>
 
-      const formData = {
-        name: document.getElementById("name").value,
-        email: document.getElementById("email").value,
-        dept: document.getElementById("dept").value,
-        event: document.getElementById("event").value,
-        message: document.getElementById("message").value
-      };
-
-      fetch(scriptURL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
-      })
-      .then(async (response) => {
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-        return await response.json();
-      })
-      .then((data) => {
-        if (data.result === "success") {
-          alert("✅ Thank you for registering! Your response has been recorded.");
-          document.getElementById("registrationForm").reset();
-        } else {
-          alert("❌ Something went wrong: " + (data.message || "Unknown error"));
-        }
-      })
-      .catch((error) => {
-        alert("⚠ Error: " + error.message);
-      });
-    });
-  </script>
 </body>
 </html>
+
 
 
